@@ -36,6 +36,16 @@ func ExampleArray_Search() {
 	// 2
 }
 
+func ExampleArray_SearchNegative() {
+	array := NewArray()
+	array.Add(1)
+	array.Add("2")
+	array.Add(true)
+	fmt.Println(array.Search(false))
+	// Output:
+	// -1
+}
+
 func ExampleArray_GetAtIndex() {
 	array := NewArray()
 	array.Add(1)
