@@ -2,48 +2,69 @@ package array
 
 import "fmt"
 
-func ExampleUint8Array_Add() {
-	array := NewUint8Array()
+func ExampleArray_Add() {
+	array := NewArray()
 
 	array.Add(1)
-	array.Add(2)
-	array.Add(3)
-	array.Add(4)
-	array.Print() // => 1 2 3 4
+	array.Add("2")
+	array.Add(true)
+	array.Print()
 	// Output:
-	// 1 2 3 4
+	// 1 2 true
 }
 
-func ExampleUint8Array_Search() {
-	array := NewUint8Array()
+func ExampleArray_Remove() {
+	array := NewArray()
 	array.Add(1)
-	array.Add(2)
-	array.Add(3)
+	array.Add("2")
+	array.Add(true)
 	array.Add(4)
-	fmt.Println(array.Search(3))
+	array.Remove(1)
+	array.Remove(true)
+	array.Print()
+	// Output:
+	// 2 4
+}
+
+func ExampleArray_Search() {
+	array := NewArray()
+	array.Add(1)
+	array.Add("2")
+	array.Add(true)
+	fmt.Println(array.Search(true))
 	// Output:
 	// 2
 }
 
-func ExampleUint8Array_GetAtIndex() {
-	array := NewUint8Array()
+func ExampleArray_GetAtIndex() {
+	array := NewArray()
 	array.Add(1)
-	array.Add(2)
-	array.Add(3)
-	array.Add(4)
+	array.Add("2")
+	array.Add(true)
 	fmt.Println(array.GetAtIndex(2))
 	// Output:
-	// 3
+	// true
 }
 
-func ExampleUint8Array_Remove() {
-	array := NewUint8Array()
+func ExampleArray_Map() {
+	array := NewArray()
 	array.Add(1)
 	array.Add(2)
 	array.Add(3)
-	array.Add(4)
-	array.Remove(3)
-	array.Print()
+	array2 := array.Map(func(object interface{}, index int) interface{} {
+		return object.(int) * 2
+	})
+	array2.Print()
 	// Output:
-	// 1 2 4
+	// 2 4 6
+}
+
+func ExampleArray_Length() {
+	array := NewArray()
+	array.Add(1)
+	array.Add("2")
+	array.Add(true)
+	fmt.Println(array.Length())
+	// Output:
+	// 3
 }

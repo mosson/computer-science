@@ -2,75 +2,73 @@ package array
 
 import "fmt"
 
-// Uint8Array is array of Uint8
-type Uint8Array struct {
-	array []uint8
+// Array is magic slice
+type Array struct {
+	data []interface{}
 }
 
-// NewUint8Array returns new Uint8Array
-func NewUint8Array() *Uint8Array {
-	return &Uint8Array{array: []uint8{}}
+// NewArray returns new Array
+func NewArray() *Array {
+	return &Array{data: []interface{}{}}
 }
 
-// Add adds data to array buffer
-func (a *Uint8Array) Add(data uint8) {
-	a.array = append(a.array, data)
+// Add adds object to the array
+func (array *Array) Add(object interface{}) {
+	array.data = append(array.data, object)
 }
 
-// Remove removes data from array buffer
-func (a *Uint8Array) Remove(data uint8) {
-	var array []uint8
+// Remove removes object from the array
+func (array *Array) Remove(object interface{}) {
+	var data []interface{}
 
-	for _, i := range a.array {
-		if i != data {
-			array = append(array, i)
+	for _, content := range array.data {
+		if object != content {
+			data = append(data, content)
 		}
 	}
 
-	a.array = array
+	array.data = data
 }
 
-// IndexOf returns the index of data from array buffer
-func (a *Uint8Array) IndexOf(data uint8) int {
-	for i, o := range a.array {
-		if o == data {
-			return i
+// Search returns the index of object in the array
+func (array *Array) Search(object interface{}) int {
+	for index, content := range array.data {
+		if object == content {
+			return index
 		}
 	}
-	return -1
-}
-
-// Search is alias of Indexof
-func (a *Uint8Array) Search(data uint8) int {
-	i := a.IndexOf(data)
-
-	if i >= 0 {
-		return i
-	}
-
 	return -1
 }
 
 // GetAtIndex returns the data of index in array buffer
-func (a *Uint8Array) GetAtIndex(index int) uint8 {
-	return a.array[index]
+func (array *Array) GetAtIndex(index int) interface{} {
+	return array.data[index]
 }
 
-// Length returns length of array buffer
-func (a *Uint8Array) Length() int {
-	return len(a.array)
+// Length returns the length of the array
+func (array *Array) Length() int {
+	return len(array.data)
 }
 
-// Join returns concatenated string
-func (a *Uint8Array) Join(sep string) string {
+// Join joins contents of the array, and returns concatenated string with separator
+func (array *Array) Join(separator string) string {
 	str := ""
-	for _, i := range a.array {
-		str = fmt.Sprintf("%s%s%d", str, sep, i)
+	for _, object := range array.data {
+		str = fmt.Sprintf("%s%s%v", str, separator, object)
 	}
 	return str
 }
 
-// Print prints StdOut
-func (a *Uint8Array) Print() {
-	fmt.Println(a.Join(" "))
+// Map returns new array that manipulated with arguments
+func (array *Array) Map(f func(interface{}, int) interface{}) *Array {
+	newArray := NewArray()
+	for index, object := range array.data {
+		newArray.Add(f(object, index))
+	}
+	return newArray
+}
+
+// Print prints the array to std out
+func (array *Array) Print() {
+	fmt.Println(array.Join(" "))
 }
